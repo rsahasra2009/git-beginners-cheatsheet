@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Cheat Sheet — 2 Pages</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 12mm 14mm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            font-size: 9pt;
+            color: #1e293b;
+            line-height: 1.35;
+            background: #fff;
+        }
+
+        /* ===== A4 Page Containers ===== */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 12mm 14mm;
+            margin: 0 auto;
+            background: #fff;
+            page-break-after: always;
+            overflow: hidden;
+        }
+
+        .page:last-child {
+            page-break-after: auto;
+        }
+
+        /* ===== Title ===== */
+        .title-bar {
+            background: #1e1b4b;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title-bar h1 {
+            font-size: 12pt;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+
+        .title-bar span {
+            font-size: 7.5pt;
+            color: #a5b4fc;
+        }
+
+        .page-label {
+            font-size: 7.5pt;
+            color: #6366f1;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        /* ===== Section Headers ===== */
+        .section-title {
+            background: #eef2ff;
+            border-left: 3px solid #4338ca;
+            padding: 3px 8px;
+            font-size: 9pt;
+            font-weight: 700;
+            color: #312e81;
+            margin: 5px 0 4px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* ===== Tables ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 6px;
+            font-size: 8.5pt;
+            border: 1px solid #c7d2fe;
+        }
+
+        th {
+            background: #312e81;
+            color: #fff;
+            padding: 3px 6px;
+            text-align: left;
+            font-size: 7.5pt;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid #4338ca;
+        }
+
+        td {
+            padding: 2px 6px;
+            border: 1px solid #ddd6fe;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        /* Number column */
+        .n {
+            text-align: center;
+            font-weight: 800;
+            color: #4338ca;
+            width: 20px;
+        }
+
+        /* Command column */
+        .cmd {
+            font-family: "Consolas", "Fira Code", monospace;
+            color: #1e1b4b;
+            font-weight: 600;
+            white-space: nowrap;
+            font-size: 8.5pt;
+        }
+
+        /* Code in cells */
+        code {
+            font-family: "Consolas", "Fira Code", monospace;
+            background: #eef2ff;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-size: 8.5pt;
+            color: #312e81;
+        }
+
+        /* Description */
+        .desc {
+            color: #475569;
+            font-size: 8.5pt;
+        }
+
+        /* Example code blocks inside tables */
+        .ex {
+            font-family: "Consolas", "Fira Code", monospace;
+            font-size: 7.5pt;
+            color: #334155;
+            background: #f1f5f9;
+            padding: 2px 5px;
+            border-radius: 3px;
+            display: block;
+            white-space: pre;
+            line-height: 1.35;
+            margin-top: 1px;
+        }
+
+        /* Output blocks */
+        .out {
+            font-family: "Consolas", "Fira Code", monospace;
+            font-size: 7pt;
+            color: #166534;
+            background: #f0fdf4;
+            padding: 2px 5px;
+            border-radius: 3px;
+            border-left: 2px solid #22c55e;
+            display: block;
+            white-space: pre;
+            line-height: 1.3;
+            margin-top: 1px;
+        }
+
+        /* Tip text */
+        .tip {
+            font-size: 7pt;
+            color: #92400e;
+            margin-top: 1px;
+        }
+
+        /* Setup table */
+        .setup-table td:first-child {
+            width: 70px;
+            font-weight: 600;
+            color: #312e81;
+        }
+
+        /* Workflow diagram */
+        .flow-table td {
+            text-align: center;
+            padding: 4px 2px;
+            border: none;
+        }
+
+        .flow-box {
+            background: #eef2ff;
+            border: 1px solid #c7d2fe;
+            border-radius: 4px;
+            padding: 4px 6px;
+            display: inline-block;
+            min-width: 70px;
+        }
+
+        .flow-box strong {
+            display: block;
+            font-size: 8pt;
+            color: #1e1b4b;
+        }
+
+        .flow-box span {
+            font-size: 7pt;
+            font-family: "Consolas", monospace;
+            color: #4338ca;
+        }
+
+        .arrow {
+            font-size: 14pt;
+            color: #a5b4fc;
+            font-weight: 700;
+        }
+
+        /* Lab steps */
+        .steps td:first-child {
+            width: 24px;
+            text-align: center;
+            font-weight: 800;
+            color: #4338ca;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 7pt;
+            color: #94a3b8;
+            margin-top: 4px;
+            padding-top: 3px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* ===== Print styles ===== */
+        @media print {
+            body {
+                background: #fff;
+            }
+
+            .page {
+                padding: 0;
+                width: auto;
+                min-height: auto;
+                margin: 0;
+            }
+
+            tr:hover {
+                background: inherit;
+            }
+
+            tr:nth-child(even) {
+                background: #f8fafc;
+            }
+        }
+
+        /* Screen-only spacing between pages */
+        @media screen {
+            .page {
+                margin: 10px auto;
+                box-shadow: 0 1px 10px rgba(0,0,0,0.1);
+                border-radius: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== PAGE 1 ==================== -->
+<div class="page">
+
+    <div class="title-bar">
+        <h1>🔀 Git Complete Beginner's Guide</h1>
+        <span>Top 15 Commands · Page 1 of 2</span>
+    </div>
+
+    <!-- SETUP -->
+    <div class="section-title">⚙️ Initial Setup (One-Time)</div>
+    <table class="setup-table">
+        <tr>
+            <td>Install Git</td>
+            <td><a href="https://git-scm.com/downloads">git-scm.com/downloads</a> &nbsp;→&nbsp; verify with <code>git --version</code></td>
+        </tr>
+        <tr>
+            <td>Set Identity</td>
+            <td><code>git config --global user.name "Your Name"</code> &nbsp;&amp;&nbsp; <code>git config --global user.email "you@example.com"</code></td>
+        </tr>
+        <tr>
+            <td>Verify</td>
+            <td><code>git config --list</code></td>
+        </tr>
+    </table>
+
+    <!-- COMMANDS 1-15 -->
+    <div class="section-title">📖 Top 15 Git Commands</div>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Command</th>
+                <th>What It Does</th>
+                <th>Example &amp; Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="n">1</td>
+                <td class="cmd">git init</td>
+                <td class="desc">Create a new repository</td>
+                <td>
+                    <span class="ex">mkdir my-project && cd my-project
+git init</span>
+                    <span class="out">Initialized empty Git repository in .../.git/</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="n">2</td>
+                <td class="cmd">git status</td>
+                <td class="desc">Check file status (tracked / modified / staged)</td>
+                <td>
+                    <span class="ex">echo "Hello" > hello.txt
+git status</span>
+                    <span class="tip">💡 Run this constantly — it's your best friend.</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="n">3</td>
+                <td class="cmd">git add</td>
+                <td class="desc">Stage files for commit</td>
+                <td>
+                    <span class="ex">git add hello.txt    # single file
+git add .            # all files
+git add *.txt        # by extension</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="n">4</td>
+                <td class="cmd">git commit</td>
+                <td class="desc">Save staged changes as a snapshot</td>
+                <td>
+                    <span class="ex">git commit -m "Add hello.txt"
+git commit -am "Update files"</span>
+                    <span class="tip">💡 Write meaningful messages!</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="n">5</td>
+                <td class="cmd">git log</td>
+                <td class="desc">View commit history</td>
+                <td>
+                    <span class="ex">git log --oneline
+git log --oneline --graph --all</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="n">6</td>
+                <td class="cmd">git diff</td>
+                <td class="desc">See line-by-line changes</td>
+                <td>
+                    <span class="ex">git diff              # unstaged
+git diff --staged     # staged</span>
+                    <span class="tip">💡 Review before committing.</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="n">7</td>
+                <td class="cmd">git branch</td>
+                <td class="desc">Create / list / delete branches</td>
+                <td>
+                    <span class="ex">git branch feature-login   # create
+git branch -d feature-login  # delete</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="n">8</td>
+                <td class="cmd">git switch</td>
+                <td class="desc">Switch branches (modern)</td>
+                <td>
+                    <span class="ex">git switch feature-login      # switch
+git switch -c feature-signup  # create+switch</span>
+                    <span class="tip">Also works: <code>git checkout -b</code></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="n">9</td>
+                <td class="cmd">git merge</td>
+                <td class="desc">Combine branches</td>
+                <td>
+                    <span class="ex">git checkout main
+git merge feature-login</span>
+                    <span class="tip">💡 Switch to destination first, then merge.</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="n">10</td>
+                <td class="cmd">git remote</td>
+                <td class="desc">Link to GitHub</td>
+                <td>
+                    <span class="ex">git remote add origin https://github.com/USER/REPO.git
+git remote -v</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="n">11</td>
+                <td class="cmd">git push</td>
+                <td class="desc">Upload commits to remote</td>
+                <td>
+                    <span class="ex">git push -u origin main   # first time
+git push                  # after that</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="n">12</td>
+                <td class="cmd">git pull</td>
+                <td class="desc">Download &amp; merge from remote</td>
+                <td>
+                    <span class="ex">git pull
+git pull origin main</span>
+                    <span class="tip">💡 Always pull before you push!</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="n">13</td>
+                <td class="cmd">git clone</td>
+                <td class="desc">Copy a remote repository</td>
+                <td>
+                    <span class="ex">git clone https://github.com/USER/REPO.git
+git clone -b branch https://github.com/USER/REPO.git</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="n">14</td>
+                <td class="cmd">git stash</td>
+                <td class="desc">Temporarily save work</td>
+                <td>
+                    <span class="ex">git stash         # save
+git stash pop     # restore
+git stash list    # list all</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="n">15</td>
+                <td class="cmd">git reset</td>
+                <td class="desc">Undo changes</td>
+                <td>
+                    <span class="ex">git reset hello.txt          # unstage
+git reset --soft HEAD~1      # undo commit, keep changes
+git reset --hard HEAD~1      # undo commit, DELETE changes</span>
+                    <span class="tip">⚠️ --hard is dangerous! Use --soft to stay safe.</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="footer">Git Beginner's Guide · Sahasra Project · Page 1 of 2</div>
+</div>
+
+<!-- ==================== PAGE 2 ==================== -->
+<div class="page">
+
+    <div class="title-bar">
+        <h1>🧪 Labs &amp; Workflow</h1>
+        <span>Hands-on Practice · Page 2 of 2</span>
+    </div>
+
+    <!-- LAB 1 -->
+    <div class="section-title">🚀 Lab 1 — Push Your Code to GitHub</div>
+    <table>
+        <thead>
+            <tr><th>Step</th><th>Action</th><th>Command / Detail</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="n">1</td>
+                <td>Create GitHub repo</td>
+                <td>Go to <a href="https://github.com/new">github.com/new</a> → name it <code>sahasra-project</code> → <strong>don't</strong> add README → Create</td>
+            </tr>
+            <tr>
+                <td class="n">2</td>
+                <td>Initialize locally</td>
+                <td><span class="ex">git init
+git add .
+git commit -m "Initial commit: add project files"</span></td>
+            </tr>
+            <tr>
+                <td class="n">3</td>
+                <td>Connect &amp; push</td>
+                <td><span class="ex">git remote add origin https://github.com/YOUR-USERNAME/sahasra-project.git
+git branch -M main
+git push -u origin main</span></td>
+            </tr>
+            <tr>
+                <td class="n">4</td>
+                <td>Verify</td>
+                <td>Open <code>https://github.com/YOUR-USERNAME/sahasra-project</code> — your files should be there!</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- LAB 2 -->
+    <div class="section-title">📥 Lab 2 — Clone a Repository</div>
+    <table>
+        <thead>
+            <tr><th>Step</th><th>Action</th><th>Command</th></tr>
+        </thead>
+        <tbody>
+            <tr><td class="n">1</td><td>Clone</td><td><span class="ex">git clone https://github.com/YOUR-USERNAME/sahasra-project.git</span></td></tr>
+            <tr><td class="n">2</td><td>Explore</td><td><span class="ex">cd sahasra-project
+ls
+git remote -v</span></td></tr>
+        </tbody>
+    </table>
+
+    <!-- LAB 3 -->
+    <div class="section-title">✏️ Lab 3 — Edit, Commit &amp; Push</div>
+    <table>
+        <thead>
+            <tr><th>Step</th><th>Action</th><th>Command</th></tr>
+        </thead>
+        <tbody>
+            <tr><td class="n">1</td><td>Make a change</td><td><span class="ex">echo "New feature added" >> hello.txt</span></td></tr>
+            <tr><td class="n">2</td><td>Review</td><td><span class="ex">git status
+git diff</span></td></tr>
+            <tr><td class="n">3</td><td>Stage → Commit → Push</td><td><span class="ex">git add .
+git commit -m "Update hello.txt with new feature"
+git push</span></td></tr>
+        </tbody>
+    </table>
+
+    <!-- LAB 4 -->
+    <div class="section-title">🌿 Lab 4 — Work with Branches</div>
+    <table>
+        <thead>
+            <tr><th>Step</th><th>Action</th><th>Command</th></tr>
+        </thead>
+        <tbody>
+            <tr><td class="n">1</td><td>Create branch</td><td><span class="ex">git checkout -b feature-new-page</span></td></tr>
+            <tr><td class="n">2</td><td>Make changes</td><td><span class="ex">echo "New page content" > newpage.txt
+git add newpage.txt
+git commit -m "Add new page"</span></td></tr>
+            <tr><td class="n">3</td><td>Push branch</td><td><span class="ex">git push -u origin feature-new-page</span></td></tr>
+            <tr><td class="n">4</td><td>Merge to main</td><td><span class="ex">git checkout main
+git merge feature-new-page
+git push</span></td></tr>
+        </tbody>
+    </table>
+
+    <!-- WORKFLOW -->
+    <div class="section-title">🗺️ Git Workflow</div>
+    <table class="flow-table">
+        <tr>
+            <td>
+                <div class="flow-box"><strong>Working Dir</strong><span>your files</span></div>
+            </td>
+            <td><span class="arrow">→</span></td>
+            <td>
+                <div class="flow-box"><strong>Staging</strong><span>git add</span></div>
+            </td>
+            <td><span class="arrow">→</span></td>
+            <td>
+                <div class="flow-box"><strong>Local Repo</strong><span>git commit</span></div>
+            </td>
+            <td><span class="arrow">→</span></td>
+            <td>
+                <div class="flow-box"><strong>Remote</strong><span>git push</span></div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- DAILY WORKFLOW -->
+    <div class="section-title">📅 Daily Routine</div>
+    <table>
+        <thead>
+            <tr><th>Order</th><th>Command</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+            <tr><td class="n">1</td><td class="cmd">git pull</td><td class="desc">Get latest changes from remote</td></tr>
+            <tr><td class="n">2</td><td class="desc" style="font-style:italic;color:#6366f1;">...write your code...</td><td class="desc">Do your work</td></tr>
+            <tr><td class="n">3</td><td class="cmd">git add .</td><td class="desc">Stage all changes</td></tr>
+            <tr><td class="n">4</td><td class="cmd">git commit -m "msg"</td><td class="desc">Save snapshot with message</td></tr>
+            <tr><td class="n">5</td><td class="cmd">git push</td><td class="desc">Upload to GitHub</td></tr>
+        </tbody>
+    </table>
+
+    <div class="footer">Git Beginner's Guide · Sahasra Project · Page 2 of 2</div>
+</div>
+
+</body>
+</html>
